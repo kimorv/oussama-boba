@@ -1,0 +1,211 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mini Twitter — HTML & CSS Only</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --muted:#9aa4b2;
+      --accent:#1d9bf0;
+      --accent-2:#0ea5a4;
+      --soft:#10151c;
+      --glass: rgba(255,255,255,0.04);
+      --radius:14px;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,#071226 0%, #071225 60%);color:#e6eef6}/* Page layout */
+.app{
+  max-width:1100px;
+  margin:28px auto;
+  display:grid;
+  grid-template-columns:240px 1fr 320px;
+  gap:20px;
+  padding:18px;
+}
+
+/* Left nav / sidebar */
+.sidebar{background:transparent;border-radius:12px;padding:12px}
+.brand{display:flex;align-items:center;gap:10px;padding:6px 8px;border-radius:10px}
+.logo{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#4cc9f0);display:grid;place-items:center;font-weight:700}
+.brand h1{font-size:18px;margin:0}
+nav ul{list-style:none;padding:10px 4px;margin:12px 0;display:flex;flex-direction:column;gap:6px}
+nav a{display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;color:var(--muted);text-decoration:none}
+nav a:hover{background:var(--glass);color:var(--accent)}
+.tweet-btn{display:block;margin:16px 8px;padding:10px 12px;background:var(--accent);color:white;border-radius:999px;text-align:center;font-weight:700;text-decoration:none}
+
+/* Main feed */
+.feed{background:transparent}
+.composer{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:12px;border-radius:14px;border:1px solid rgba(255,255,255,0.03);display:flex;gap:12px}
+.avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#ffb86b,#ff7a7a);display:grid;place-items:center;font-weight:700}
+.compose-right{flex:1}
+.compose-right textarea{width:100%;resize:none;min-height:64px;background:transparent;border:0;color:inherit;font-size:15px;outline:none}
+.compose-actions{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.compose-toolbar{display:flex;gap:8px}
+.circle{width:36px;height:36px;border-radius:10px;background:var(--soft);display:grid;place-items:center;color:var(--muted);font-weight:700}
+.post{background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);border-radius:14px;padding:12px;margin-top:12px;border:1px solid rgba(255,255,255,0.02)}
+.post .row{display:flex;gap:12px}
+.post .meta{display:flex;flex-direction:column}
+.name{font-weight:700}
+.handle{color:var(--muted);font-size:13px}
+.content{margin-top:8px;line-height:1.4}
+
+/* Tweet footer actions */
+.post-footer{display:flex;gap:18px;margin-top:12px;color:var(--muted);font-size:13px}
+.post-footer button{background:transparent;border:0;color:inherit;display:inline-flex;gap:8px;align-items:center;padding:6px;border-radius:8px}
+.post-footer button:hover{background:var(--glass);color:var(--accent)}
+
+/* Right sidebar */
+.right-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:12px;border-radius:14px;border:1px solid rgba(255,255,255,0.03)}
+.search{display:flex;align-items:center;padding:8px;border-radius:10px;background:var(--soft);gap:8px}
+.search input{background:transparent;border:0;outline:none;color:inherit}
+.who-to-follow{margin-top:12px}
+.follow{display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:10px;margin-top:8px}
+.follow .who{display:flex;gap:10px;align-items:center}
+.follow button{background:var(--accent);border:0;padding:8px 10px;border-radius:999px;color:white;font-weight:600}
+
+/* small screens */
+@media(max-width:980px){
+  .app{grid-template-columns:72px 1fr;max-width:900px}
+  .right{display:none}
+  nav a span.text{display:none}
+  .brand h1{display:none}
+}
+@media(max-width:640px){
+  .app{padding:10px;gap:10px}
+  .logo{width:36px;height:36px}
+}
+
+/* tiny visual polish */
+small.muted{color:var(--muted)}
+.sublabel{color:var(--muted);font-size:13px}
+hr.sep{border:0;border-top:1px solid rgba(255,255,255,0.02);margin:10px 0}
+
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- LEFT NAV -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">t</div>
+        <h1>MiniTwit</h1>
+      </div><nav>
+    <ul>
+      <li><a href="#"><span class="icon">🏠</span><span class="text">Home</span></a></li>
+      <li><a href="#"><span class="icon">🔍</span><span class="text">Explore</span></a></li>
+      <li><a href="#"><span class="icon">🔔</span><span class="text">Notifications</span></a></li>
+      <li><a href="#"><span class="icon">✉️</span><span class="text">Messages</span></a></li>
+      <li><a href="#"><span class="icon">🔖</span><span class="text">Bookmarks</span></a></li>
+      <li><a href="#"><span class="icon">📋</span><span class="text">Lists</span></a></li>
+      <li><a href="#"><span class="icon">👤</span><span class="text">Profile</span></a></li>
+    </ul>
+  </nav>
+
+  <a class="tweet-btn" href="#">Tweet</a>
+
+  <hr class="sep">
+  <div class="sublabel">Logged in as</div>
+  <div style="display:flex;gap:10px;align-items:center;margin-top:8px">
+    <div class="circle">W</div>
+    <div>
+      <div style="font-weight:700">Oussama </div>
+      <div class="sublabel">@oussama_student</div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN FEED -->
+<main class="feed">
+  <section class="composer">
+    <div class="avatar">W</div>
+    <div class="compose-right">
+      <textarea placeholder="What's happening?" maxlength="280"></textarea>
+      <div class="compose-actions">
+        <div class="compose-toolbar">
+          <div class="circle">📷</div>
+          <div class="circle">🎞️</div>
+          <div class="circle">😊</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <small class="muted">0/280</small>
+          <button class="tweet-btn" style="padding:8px 12px">Tweet</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sample posts -->
+  <article class="post">
+    <div class="row">
+      <div class="avatar">A</div>
+      <div style="flex:1">
+        <div style="display:flex;gap:8px;align-items:center;">
+          <div class="name">Amina Ben</div>
+          <div class="handle">@aminaben · <small class="muted">2h</small></div>
+        </div>
+        <div class="content">Learning CSS only layouts is fun — you can do an awful lot without JavaScript. Try making a responsive card grid next.</div>
+        <div class="post-footer">
+          <button><span>💬</span> 12</button>
+          <button><span>🔁</span> 4</button>
+          <button><span>❤️</span> 41</button>
+          <button><span>📤</span></button>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="post">
+    <div class="row">
+      <div class="avatar">T</div>
+      <div style="flex:1">
+        <div style="display:flex;gap:8px;align-items:center;">
+          <div class="name">Tech Daily</div>
+          <div class="handle">@techdaily · <small class="muted">Yesterday</small></div>
+        </div>
+        <div class="content">CSS trick: use <code>clamp()</code> for fluid type, and <code>minmax()</code> with grid for adaptive layouts.</div>
+        <div class="post-footer">
+          <button><span>💬</span> 8</button>
+          <button><span>🔁</span> 2</button>
+          <button><span>❤️</span> 99</button>
+          <button><span>📤</span></button>
+        </div>
+      </div>
+    </div>
+  </article>
+
+</main>
+
+<!-- RIGHT COLUMN -->
+<aside class="right">
+  <div class="right-card">
+    <div class="search"><span>🔎</span><input placeholder="Search"/></div>
+    <div class="who-to-follow">
+      <h3 style="margin:10px 0 6px 0">Who to follow</h3>
+      <div class="follow">
+        <div class="who"><div class="circle">S</div><div><div style="font-weight:700">Sofia</div><div class="sublabel">@sofia_dev</div></div></div>
+        <button>Follow</button>
+      </div>
+      <div class="follow">
+        <div class="who"><div class="circle">M</div><div><div style="font-weight:700">Moussa</div><div class="sublabel">@moussasays</div></div></div>
+        <button>Follow</button>
+      </div>
+    </div>
+
+    <hr class="sep">
+    <div style="margin-top:8px" class="sublabel">Trends for you</div>
+    <div style="margin-top:6px;color:var(--muted)">
+      <div style="padding:8px;border-radius:8px;margin-top:6px;background:var(--soft)">#CSS</div>
+      <div style="padding:8px;border-radius:8px;margin-top:6px;background:var(--soft)">#WebDev</div>
+    </div>
+  </div>
+</aside>
+
+  </div>
+</body>
+</html>
